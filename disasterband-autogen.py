@@ -64,7 +64,6 @@ def split_parts(midifile):
         new_tracks = [[mido.MidiTrack(), None]]
 
         for m in track:
-            print(m)
             if m.type == 'note_on':
                 create_new_track = True
 
@@ -125,6 +124,7 @@ def autogen(input_filename, output_filename):
 
     for track in midifile.tracks[1:]:
         scale_tempo(track, max_tempo, tempos)
+        track[0].time = 1000
 
     # remove tempo changes from tempo track
     to_remove = [m for m in tempo_track if m.type == 'set_tempo' and m.time > 0]
@@ -133,8 +133,8 @@ def autogen(input_filename, output_filename):
 
     transpose(midifile)
 
-    new_tracks = split_parts(midifile)
-    midifile.tracks = new_tracks
+    # new_tracks = split_parts(midifile)
+    # midifile.tracks = new_tracks
 
     midifile.save(output_filename)
 
